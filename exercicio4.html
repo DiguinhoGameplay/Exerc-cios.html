@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex04</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 60%;
+            max-width: 800px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .comment-box {
+            margin-bottom: 20px;
+        }
+
+        .comment-box textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+
+        .comment-box button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .comment-box button:hover {
+            background-color: #218838;
+        }
+
+        .comment-section {
+            margin-top: 30px;
+        }
+
+        .comment {
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+
+        .comment.user {
+            background-color: #dff0d8;
+        }
+
+        .comment .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .comment .content {
+            font-size: 14px;
+        }
+
+        .no-comments {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="comment-box">
+            <h3>Deixe seu comentário:</h3>
+            <textarea id="commentInput" rows="3" placeholder="Escreva um comentário..."></textarea>
+            <button id="postComment">Postar Comentário</button>
+        </div>
+
+        <div class="comment-section">
+            <h3>Comentários:</h3>
+            <div id="commentsList" class="no-comments">Nenhum comentário ainda. Seja o primeiro a comentar!</div>
+        </div>
+    </div>
+
+    <script>
+        const commentInput = document.getElementById('commentInput');
+        const postCommentButton = document.getElementById('postComment');
+        const commentsList = document.getElementById('commentsList');
+        function createComment(username, content, isUser = false) {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+            if (isUser) commentDiv.classList.add('user');
+
+            const usernameDiv = document.createElement('div');
+            usernameDiv.classList.add('username');
+            usernameDiv.textContent = username;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('content');
+            contentDiv.textContent = content;
+
+            commentDiv.appendChild(usernameDiv);
+            commentDiv.appendChild(contentDiv);
+
+            return commentDiv;
+        }
+        function postComment() {
+            const commentText = commentInput.value.trim();
+            if (commentText === '') {
+                alert('Escreva um comentário.');
+                return;
+            }
+            if (commentsList.classList.contains('no-comments')) {
+                commentsList.classList.remove('no-comments');
+                commentsList.textContent = '';
+            }
+            const userComment = createComment('Você', commentText, true);
+            commentsList.appendChild(userComment);
+            commentInput.value = '';
+            simulateOtherComments();
+        }
+        function simulateOtherComments() {
+            const otherUsers = ['Ana', 'Carlos', 'Beatriz'];
+            const randomUser = otherUsers[Math.floor(Math.random() * otherUsers.length)];
+            const randomComment = "boraaa";
+            
+            const otherComment = createComment(randomUser, randomComment);
+            setTimeout(() => {
+                commentsList.appendChild(otherComment);
+            }, 1000);
+        }
+        postCommentButton.addEventListener('click', postComment);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex02</title>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #eceff1;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .tabuleiro {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px auto;
+        }
+
+        .quadrado {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            color: #37474f;
+            cursor: pointer;
+            border: 2px solid #b0bec5;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .quadrado:hover {
+            background-color: #cfd8dc;
+        }
+
+        .quadrado:active {
+            transform: scale(0.95);
+        }
+
+        .mensagem {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #37474f;
+        }
+
+        .mensagem.vitoria {
+            color: #43a047;
+        }
+
+        .mensagem.empate {
+            color: #ff7043;
+        }
+
+        .reiniciar {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0277bd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .reiniciar:hover {
+            background-color: #01579b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Jogo da Velha</h1>
+    <div class="tabuleiro" id="tabuleiro">
+    </div>
+    <div class="mensagem" id="mensagem"></div>
+    <button class="reiniciar" id="reiniciar" onclick="reiniciarJogo()">Reiniciar Jogo</button>
+</div>
+
+<script>
+    const tabuleiro = document.getElementById('tabuleiro');
+    const mensagem = document.getElementById('mensagem');
+    let jogadorAtual = 'X';
+    let tabuleiroEstado = Array(9).fill(null);
+    let jogoAtivo = true;
+    function criarTabuleiro() {
+        tabuleiro.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+            const quadrado = document.createElement('div');
+            quadrado.classList.add('quadrado');
+            quadrado.setAttribute('data-indice', i);
+            quadrado.addEventListener('click', cliqueQuadrado);
+            tabuleiro.appendChild(quadrado);
+        }
+    }
+    function cliqueQuadrado(e) {
+        const indice = e.target.getAttribute('data-indice');
+        if (tabuleiroEstado[indice] !== null || !jogoAtivo) return;
+        tabuleiroEstado[indice] = jogadorAtual;
+        e.target.textContent = jogadorAtual;
+        verificarVencedor();
+        jogadorAtual = jogadorAtual === 'X' ? 'O' : 'X';
+    }
+    function verificarVencedor() {
+        const combinacoesVitoria = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+        let vencedor = null;
+        for (let combinacao of combinacoesVitoria) {
+            const [a, b, c] = combinacao;
+            if (tabuleiroEstado[a] && tabuleiroEstado[a] === tabuleiroEstado[b] && tabuleiroEstado[a] === tabuleiroEstado[c]) {
+                vencedor = tabuleiroEstado[a];
+                break;
+            }
+        }
+        if (vencedor) {
+            jogoAtivo = false;
+            mensagem.textContent = `O jogador ${vencedor} venceu!`;
+            mensagem.classList.add('vitoria');
+            return;
+        }
+
+        if (!tabuleiroEstado.includes(null)) {
+            jogoAtivo = false;
+            mensagem.textContent = 'Empate!';
+            mensagem.classList.add('empate');
+            return;
+        }
+    }
+    function reiniciarJogo() {
+        jogadorAtual = 'X';
+        tabuleiroEstado = Array(9).fill(null);
+        jogoAtivo = true;
+        mensagem.textContent = '';
+        mensagem.classList.remove('vitoria', 'empate');
+        criarTabuleiro();
+    }
+    criarTabuleiro();
+</script>
+
+</body>
+</html>

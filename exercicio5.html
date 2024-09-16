@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Lateral Retrátil</title>
+    <style>
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .menu-btn:hover {
+            background-color: #555;
+        }
+
+        /* Estilo da sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            transition: 0.3s ease;
+            z-index: 5;
+            padding: 20px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        /* Links dentro da sidebar */
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        /* Estilo da área principal quando o menu estiver ativo */
+        .main-content {
+            padding: 20px;
+            transition: 0.3s ease;
+        }
+
+        .main-content.active {
+            margin-left: 250px;
+        }
+
+        /* Responsividade: Quando a tela for pequena */
+        @media screen and (max-width: 600px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content.active {
+                margin-left: 200px;
+            }
+
+            .menu-btn {
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botão de menu -->
+    <button class="menu-btn" id="menuBtn">☰</button>
+
+    <!-- Menu lateral (sidebar) -->
+    <div class="sidebar" id="sidebar">
+        <a href="#">Início</a>
+        <a href="#">Sobre</a>
+        <a href="#">Serviços</a>
+        <a href="#">Contato</a>
+    </div>
+
+    <script>
+        // Referências aos elementos HTML
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        // Adiciona um evento de clique ao botão de menu
+        menuBtn.addEventListener('click', function() {
+            // Alterna a classe 'active' para expandir ou retrair o menu
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('active');
+        });
+    </script>
+
+</body>
+</html>
