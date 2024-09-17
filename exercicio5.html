@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Lateral Retrátil</title>
+    <title>ex05</title>
     <style>
         .menu-btn {
             position: fixed;
@@ -21,8 +21,6 @@
         .menu-btn:hover {
             background-color: #555;
         }
-
-        /* Estilo da sidebar */
         .sidebar {
             position: fixed;
             top: 0;
@@ -39,8 +37,6 @@
         .sidebar.active {
             left: 0;
         }
-
-        /* Links dentro da sidebar */
         .sidebar a {
             display: block;
             color: white;
@@ -52,8 +48,6 @@
         .sidebar a:hover {
             background-color: #575757;
         }
-
-        /* Estilo da área principal quando o menu estiver ativo */
         .main-content {
             padding: 20px;
             transition: 0.3s ease;
@@ -62,8 +56,6 @@
         .main-content.active {
             margin-left: 250px;
         }
-
-        /* Responsividade: Quando a tela for pequena */
         @media screen and (max-width: 600px) {
             .sidebar {
                 width: 200px;
@@ -80,11 +72,7 @@
     </style>
 </head>
 <body>
-
-    <!-- Botão de menu -->
     <button class="menu-btn" id="menuBtn">☰</button>
-
-    <!-- Menu lateral (sidebar) -->
     <div class="sidebar" id="sidebar">
         <a href="#">Início</a>
         <a href="#">Sobre</a>
@@ -93,18 +81,13 @@
     </div>
 
     <script>
-        // Referências aos elementos HTML
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('mainContent');
-
-        // Adiciona um evento de clique ao botão de menu
         menuBtn.addEventListener('click', function() {
-            // Alterna a classe 'active' para expandir ou retrair o menu
             sidebar.classList.toggle('active');
             mainContent.classList.toggle('active');
         });
     </script>
-
 </body>
 </html>
